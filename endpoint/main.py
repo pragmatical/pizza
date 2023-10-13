@@ -6,7 +6,6 @@ from fastapi.openapi.utils import get_openapi
 from ffmodel.core.inference_endpoint import InferenceEndpoint
 from ffmodel.core.environment_config import EnvironmentConfigs
 from ffmodel.core.inference_endpoint import InferenceEndpoint
-from ffmodel.data_models.inference import UserInferenceResponse
 from ffmodel.utils.ffmodel_logger import FFModelLogger
 from pydantic import BaseModel
 
@@ -50,9 +49,15 @@ def run_inference(prompt:Prompt = {"user_nl":"I want a large pepperoni pie and a
     logger.info(f"Received request: {request_id}")
     result = endpoint.execute(prompt.user_nl)
     logger.info(f"Inference completed: {request_id}")
+    try:
+        completion=json.loads(result.model_output.completions[0])
+    except Exception as e:
+        completion=result.model_output.completions[0]
+        logger.info("Completion is not json for request id:"+str(request_id))
+    
     return Response(
         user_nl=result.request.user_nl,
-        completion=json.loads(result.model_output.completions[0]),
+        completion=completion,
         request_id=str(request_id),
     )
 
