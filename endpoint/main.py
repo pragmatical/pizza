@@ -3,6 +3,7 @@ import uuid
 
 from fastapi import FastAPI
 from fastapi.openapi.utils import get_openapi
+from fastapi.responses import RedirectResponse
 from ffmodel.core.inference_endpoint import InferenceEndpoint
 from ffmodel.core.environment_config import EnvironmentConfigs
 from ffmodel.core.inference_endpoint import InferenceEndpoint
@@ -39,9 +40,9 @@ app = FastAPI()
 
 endpoint = InferenceEndpoint(solution_config_path, environment_config_path)
 
-@app.get("/")
+@app.get("/",include_in_schema=False)
 async def root():
-    return {"message": "Pizza"}
+    return RedirectResponse(url='/docs')
 
 @app.post("/inference/")
 def run_inference(prompt:Prompt = {"user_nl":"I want a large pepperoni pie and a 2 liter of coke"}) -> Response:
