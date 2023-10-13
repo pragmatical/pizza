@@ -1,6 +1,6 @@
 experimentation:
   data:
-    file_path: "./data/batch_execution/01_experiment_set.jsonl"
+    file_path: "../solution/data/batch_execution/01_experiment_set.jsonl"
   reader:
     name: "components.readers.jsonl"
   writers:
@@ -18,13 +18,13 @@ inference:
 
 id: "01"
 description: "Baseline solution for the shopping assistant"
-project_root: "../" # relative to notebook/command line execution
+project_root: "../solution" # relative to notebook/command line execution
 
 components:
   - name: "components.pre_processors.static_context_from_file"
     supporting_data:
       static_context_file:
-        file_path: "data/static_contexts/01_static_context.txt"
+        file_path: "../solution/data/static_contexts/01_static_context.txt"
   
   - name: "components.stitchers.openai_chat_completions"
 
@@ -38,7 +38,7 @@ components:
   - name: components.evaluators.json_schema
     supporting_data:
       json_schema_file:
-        file_path: "./data/schemas/order_schema_min.json"
+        file_path: "../solution/data/schemas/order_schema_min.json"
 
   - name: "components.evaluators.fuzzy"
 
