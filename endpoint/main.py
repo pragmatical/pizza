@@ -48,7 +48,7 @@ def run_inference(prompt:Prompt = {"user_nl":"I want a large pepperoni pie and a
     request_id = uuid.uuid4()
     logger.info(f"Received request: {request_id}")
     result = endpoint.execute(prompt.user_nl)
-    logger.info(f"Inference completed: {request_id}")
+    logger.debug(f"Inference completed: {request_id}")
     try:
         completion=json.loads(result.model_output.completions[0])
     except Exception as e:
