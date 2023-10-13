@@ -25,7 +25,14 @@ environment_config_path = EnvironmentConfigs.get_config("ENVIRONMENT_CONFIG_PATH
 # Initialize logger
 logger = FFModelLogger().get_logger("app")
 
-
+def set_openapi_schema(app: FastAPI)->None:
+    openapi_schema = get_openapi(
+        title="PizzAI Order Generator",
+        version="0.0.1",
+        description="This inference endpoint will take natural language and produce a pizza order.",
+        routes=app.routes,
+    )
+    app.openapi_schema = openapi_schema
 
 
 # Create Web App
@@ -45,7 +52,8 @@ def run_inference(prompt:Prompt = {"user_nl":"I want a large pepperoni pie and a
     logger.info(f"Inference completed: {request_id}")
     return Response(
         user_nl=result.request.user_nl,
-        completion=result.model_output.completions[0],
+        completion=json.loads(result.model_output.completions[0]),
         request_id=str(request_id),
     )
 
+set_openapi_schema(app)
