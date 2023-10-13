@@ -1,0 +1,47 @@
+experimentation:
+  data:
+    file_path: "../solution/data/batch_execution/01_experiment_set.jsonl"
+  reader:
+    name: "components.readers.jsonl"
+  writers:
+    - name: "components.writers.jsonl"
+      args:
+        output_path: "outputs/experiments/01.jsonl"
+
+inference:
+  reader:
+    name: "components.readers.text_prompt"
+  writers:
+    - name: "components.writers.jsonl"
+      args:
+        output_path: "outputs/inference/01.jsonl"
+
+id: "01"
+description: "Solution with static context added to prompt"
+project_root: "../solution" # relative to notebook/command line execution
+
+components:
+  - name: "components.pre_processors.static_context_from_file"
+    supporting_data:
+      static_context_file:
+        file_path: "../solution/data/static_contexts/01_static_context.txt"
+  
+  - name: "components.stitchers.openai_chat_completions"
+
+  - name: "components.model_callers.openai_chat_completions"
+    args:
+      engine: "gpt-35-turbo"
+      stop: []
+      max_tokens: 500
+      temperature: 0
+
+  - name: components.evaluators.json_schema
+    supporting_data:
+      json_schema_file:
+        file_path: "../solution/data/schemas/order_schema_min.json"
+
+  - name: "components.evaluators.fuzzy"
+
+  - name: "components.evaluators.bleu"
+
+  - name: "components.evaluators.rouge"
