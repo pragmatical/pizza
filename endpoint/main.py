@@ -2,6 +2,7 @@ import json
 import uuid
 
 from fastapi import FastAPI
+from fastapi.openapi.utils import get_openapi
 from ffmodel.core.inference_endpoint import InferenceEndpoint
 from ffmodel.core.environment_config import EnvironmentConfigs
 from ffmodel.core.inference_endpoint import InferenceEndpoint
@@ -14,9 +15,7 @@ class Prompt(BaseModel):
 
 class Response(BaseModel):
     user_nl:str
-    completion:str
-    session_id:str
-    sequence:str
+    completion:object
     request_id:str
 
 # Read Config
@@ -26,26 +25,27 @@ environment_config_path = EnvironmentConfigs.get_config("ENVIRONMENT_CONFIG_PATH
 # Initialize logger
 logger = FFModelLogger().get_logger("app")
 
+
+
+
 # Create Web App
 app = FastAPI()
+
 endpoint = InferenceEndpoint(solution_config_path, environment_config_path)
 
 @app.get("/")
 async def root():
     return {"message": "Pizza"}
 
-@app.post("/inference/",response_model=Response)
-def run_inference(prompt:Prompt) -> Response:
+@app.post("/inference/")
+def run_inference(prompt:Prompt = {"user_nl":"I want a large pepperoni pie and a 2 liter of coke"}) -> Response:
     request_id = uuid.uuid4()
     logger.info(f"Received request: {request_id}")
-    result = endpoint.execute(str(prompt))
+    result = endpoint.execute(prompt.user_nl)
     logger.info(f"Inference completed: {request_id}")
-
     return Response(
         user_nl=result.request.user_nl,
         completion=result.model_output.completions[0],
-        session_id=str(result.request.session_id),
-        sequence=str(result.request.sequence),
         request_id=str(request_id),
     )
 
