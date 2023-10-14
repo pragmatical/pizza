@@ -1,5 +1,6 @@
 import json
 import uuid
+import typing
 
 from fastapi import FastAPI
 from fastapi.openapi.utils import get_openapi
@@ -8,15 +9,25 @@ from ffmodel.core.inference_endpoint import InferenceEndpoint
 from ffmodel.core.environment_config import EnvironmentConfigs
 from ffmodel.core.inference_endpoint import InferenceEndpoint
 from ffmodel.utils.ffmodel_logger import FFModelLogger
+from ffmodel.data_models.inference import UserInferenceRequest
+from ffmodel.data_models.inference import UserInferenceResponse
+from fastapi.encoders import jsonable_encoder
 from pydantic import BaseModel
 
-class Prompt(BaseModel):
-    user_nl: str
-
-class Response(BaseModel):
+class CompletionPair(BaseModel):
     user_nl:str
     completion:object
-    request_id:str
+
+class UserSession(BaseModel):
+    session_id:str
+    prior_responses:list[CompletionPair]
+    sequence: typing.Optional[int]
+
+
+class ChatRequest(BaseModel):
+    user_nl:str
+    session:UserSession
+    
 
 # Read Config
 solution_config_path = EnvironmentConfigs.get_config("SOLUTION_CONFIG_PATH")
@@ -45,21 +56,18 @@ async def root():
     return RedirectResponse(url='/docs')
 
 @app.post("/inference/")
-def run_inference(prompt:Prompt = {"user_nl":"I want a large pepperoni pie and a 2 liter of coke"}) -> Response:
+def run_inference(chat_request:ChatRequest) -> object:
     request_id = uuid.uuid4()
     logger.info(f"Received request: {request_id}")
-    result = endpoint.execute(prompt.user_nl)
-    logger.debug(f"Inference completed: {request_id}")
-    try:
-        completion=json.loads(result.model_output.completions[0])
-    except Exception as e:
-        completion=result.model_output.completions[0]
-        logger.info("Completion is not json for request id:"+str(request_id))
-    
-    return Response(
+    payload=json.dumps(jsonable_encoder(chat_request))
+    result = endpoint.execute(payload) 
+    response = UserInferenceResponse(
         user_nl=result.request.user_nl,
-        completion=completion,
+        completion=result.model_output.completions[0],
+        session_id=result.request.session_id,
+        sequence=result.request.sequence,
         request_id=str(request_id),
-    )
+    ) 
+    return response
 
 set_openapi_schema(app)
