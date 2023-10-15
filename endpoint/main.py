@@ -9,7 +9,6 @@ from ffmodel.core.inference_endpoint import InferenceEndpoint
 from ffmodel.core.environment_config import EnvironmentConfigs
 from ffmodel.core.inference_endpoint import InferenceEndpoint
 from ffmodel.utils.ffmodel_logger import FFModelLogger
-from ffmodel.data_models.inference import UserInferenceRequest
 from ffmodel.data_models.inference import UserInferenceResponse
 from fastapi.encoders import jsonable_encoder
 from pydantic import BaseModel
