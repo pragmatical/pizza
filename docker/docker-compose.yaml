@@ -1,0 +1,19 @@
+version: "3.9"
+services:
+  inference:
+    build:
+      context: ../ # Use the project root as our build context
+      dockerfile: docker/Dockerfile # Relative to build context
+      secrets:
+        - ffmodelreposecrets # Include our FFModel repository secrets during build
+    image: ghcr.io/joaquinrz/pizza-ai # Tag our image as 
+    environment: # Set our FFModel config paths
+      SOLUTION_CONFIG_PATH: /app/solution/configs/05_with_fewshots_02_min.yaml
+      ENVIRONMENT_CONFIG_PATH: /app/.ffmodel
+    ports:
+      - "8080:8080" # Expose our web endpoint
+    volumes:
+      - ../.ffmodel:/app/.ffmodel:ro # Mount our environment config
+secrets:
+  ffmodelreposecrets: # Used to authenticate to the FFModel repo and install it
+    file: ../.env
