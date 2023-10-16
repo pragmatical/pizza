@@ -1,3 +1,4 @@
 # Add your project's requirements here!
 ipykernel
 seaborn
+notebook
