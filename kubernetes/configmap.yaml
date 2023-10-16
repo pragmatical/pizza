@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: pizza-api-configmap
+data:
+  SOLUTION_CONFIG_PATH: ../solution/configs/05_with_fewshots_02_min.yaml
+  ENVIRONMENT_CONFIG_PATH: ../.ffmodel

@@ -1,0 +1,50 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: pizza-api-deployment
+  labels:
+    app: pizza-api
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: pizza-api
+  template:
+    metadata:
+      labels:
+        app: pizza-api
+    spec:
+      containers:
+      - name: pizza-api
+        image: ghcr.io/joaquinrz/pizza-api
+        imagePullPolicy: IfNotPresent
+        env:
+        - name: SOLUTION_CONFIG_PATH
+          valueFrom:
+            configMapKeyRef:
+              name: pizza-api-configmap
+              key: SOLUTION_CONFIG_PATH
+        - name: ENVIRONMENT_CONFIG_PATH
+          valueFrom:
+            configMapKeyRef:
+              name: pizza-api-configmap
+              key: ENVIRONMENT_CONFIG_PATH
+        - name: OPENAI_ENDPOINT
+          valueFrom:
+            secretKeyRef:
+              name: pizza-api-secret
+              key: OPENAI_ENDPOINT
+        - name: OPENAI_API_KEY
+          valueFrom:
+            secretKeyRef:
+              name: pizza-api-secret
+              key: OPENAI_API_KEY
+        ports:
+        - containerPort: 8080
+        resources:
+          requests:
+            memory: "256Mi"
+            cpu: "1000m"
+          limits:
+            memory: "512Mi"
+            cpu: "2000m"
