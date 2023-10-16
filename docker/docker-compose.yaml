@@ -11,7 +11,7 @@ services:
       SOLUTION_CONFIG_PATH: /app/solution/configs/05_with_fewshots_02_min.yaml
       ENVIRONMENT_CONFIG_PATH: /app/.ffmodel
     ports:
-      - "8080:8080" # Expose our web endpoint
+      - "8080:8000" # Expose our web endpoint
     volumes:
       - ../.ffmodel:/app/.ffmodel:ro # Mount our environment config
 secrets:

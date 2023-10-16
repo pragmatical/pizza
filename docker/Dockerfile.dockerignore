@@ -51,3 +51,5 @@ azure-pipelines.yml
 # output files
 output/
 
+#notebooks
+notebooks/
