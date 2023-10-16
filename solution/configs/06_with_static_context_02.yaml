@@ -14,13 +14,18 @@ inference:
   writers:
     - name: "components.writers.jsonl"
       args:
-        output_path: "outputs/inference/00.jsonl"
+        output_path: "outputs/inference/01.jsonl"
 
-id: "00"
-description: "Baseline solution for the shopping assistant"
+id: "06"
+description: "Solution with static context added to prompt - include instruction for json format"
 project_root: "../solution" # relative to notebook/command line execution
 
-components: 
+components:
+  - name: "components.pre_processors.static_context_from_file"
+    supporting_data:
+      static_context_file:
+        file_path: "../solution/data/static_contexts/02_static_context.txt"
+  
   - name: "components.stitchers.openai_chat_completions"
 
   - name: "components.model_callers.openai_chat_completions"
