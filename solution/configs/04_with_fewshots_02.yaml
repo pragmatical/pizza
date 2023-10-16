@@ -10,7 +10,7 @@ experimentation:
 
 inference:
   reader:
-    name: "components.readers.json"
+    name: "components.readers.jsonl"
   writers:
     - name: "components.writers.jsonl"
       args:
@@ -37,7 +37,7 @@ components:
     args:
       engine: "gpt-35-turbo"
       stop: []
-      max_tokens: 500
+      max_tokens: 2000
       temperature: 0
   
   - name: "components.post_processors.minify_json"

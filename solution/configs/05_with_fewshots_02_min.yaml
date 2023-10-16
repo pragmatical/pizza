@@ -10,7 +10,7 @@ experimentation:
 
 inference:
   reader:
-    name: "components.readers.text_prompt"
+    name: "components.readers.jsonl"
   writers:
     - name: "components.writers.jsonl"
       args:
