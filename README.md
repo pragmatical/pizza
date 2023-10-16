@@ -8,6 +8,7 @@ There are 3 main directories:
 
 ## Running the notebooks
 Notebooks run and use one of 2 .env files.  There is .ffmodel.env, and .chatbot.env
+The notebooks are set up to look for these .env files go in your user home dirctory, all notebooks use .ffmodel.env except for the chatbot notebook
 
 .ffmodel.env
 ```
