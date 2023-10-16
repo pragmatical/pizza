@@ -6,7 +6,7 @@ experimentation:
   writers:
     - name: "components.writers.jsonl"
       args:
-        output_path: "outputs/experiments/06.jsonl"
+        output_path: "outputs/experiments/07.jsonl"
 
 inference:
   reader:
@@ -14,9 +14,9 @@ inference:
   writers:
     - name: "components.writers.jsonl"
       args:
-        output_path: "outputs/inference/06.jsonl"
+        output_path: "outputs/inference/07.jsonl"
 
-id: "06"
+id: "07"
 description: "Solution with static context added to prompt - include instruction for json format"
 project_root: "../solution" # relative to notebook/command line execution
 
