@@ -6,7 +6,7 @@ experimentation:
   writers:
     - name: "components.writers.jsonl"
       args:
-        output_path: "outputs/experiments/01.jsonl"
+        output_path: "outputs/experiments/00.jsonl"
 
 inference:
   reader:

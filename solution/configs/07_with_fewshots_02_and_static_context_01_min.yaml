@@ -25,6 +25,11 @@ components:
     supporting_data:
       static_context_file:
         file_path: "../solution/data/static_contexts/02_static_context.txt"
+
+  - name: "components.pre_processors.few_shots_from_file"
+    supporting_data:
+      few_shot_file:
+        file_path: "../solution/data/few_shot_pairs/02_few_shots.json"
   
   - name: "components.stitchers.openai_chat_completions"
 
