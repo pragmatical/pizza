@@ -51,8 +51,5 @@ azure-pipelines.yml
 # output files
 output/
 
-<<<<<<< HEAD
 #notebooks
 notebooks/
-=======
->>>>>>> e9fb3a83f86551fc10c85aa6b287542a1523d3b6
