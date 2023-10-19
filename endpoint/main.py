@@ -37,9 +37,9 @@ logger = FFModelLogger().get_logger("app")
 
 def set_openapi_schema(app: FastAPI)->None:
     openapi_schema = get_openapi(
-        title="PizzAI Order Generator",
+        title="OpenAI Inference Endpoint",
         version="0.0.1",
-        description="This inference endpoint will take natural language and produce a pizza order.",
+        description="A fasapi wrapper for an ffmodel openai enpoint.",
         routes=app.routes,
     )
     app.openapi_schema = openapi_schema

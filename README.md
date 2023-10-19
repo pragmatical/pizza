@@ -1,4 +1,4 @@
-# pizza
+# A template for starting an FFModel based enpoint
 
 This repo contains an FFModel based implementation of an endpoint that takes in a natural language prompt and returns a structured json object for an order at a pizza/wings/drinks restaurant.
 There are 3 main directories:
